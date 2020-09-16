@@ -19,7 +19,7 @@ router.get(
 
 router.post(
   '/recibirPedido',
-  controller.postTest
+  controller.postRecibirPedido
 )
 //Los clientes notifican cuando abandonan la mesa 
 router.post(
