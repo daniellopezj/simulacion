@@ -23,11 +23,24 @@ exports.getTest = async (req, res) => {
 exports.postTest = async (req, res) => {
   try {
     const data = req.body //retorna el mismo objeto enviado 
-    res.status(201).json(data)
+    res.status(200).json(data)
   } catch (error) {
     utils.handleError(res, error)
   }
 }
+
+exports.postRecibir_pedido = async (req, res) => {
+  try {
+    const data = req.body //retorna el mismo objeto enviado 
+
+    if (!data.idMesa) res.status(404).json({message:'La id de la mesa es requerida'})
+
+    res.status(200).json({message:'Pedido recibido'})
+  } catch (error) {
+    utils.handleError(res, error)
+  }
+}
+
 
 exports.cualquierRuta = async (req, res) => {
   try {
