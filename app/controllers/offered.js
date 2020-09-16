@@ -29,6 +29,16 @@ exports.postTest = async (req, res) => {
   }
 }
 
+exports.postRecibir_pedido = async (req, res) => {
+  try {
+    const data = req.body //retorna el mismo objeto enviado 
+    res.status(201).json(data)
+  } catch (error) {
+    utils.handleError(res, error)
+  }
+}
+
+
 exports.cualquierRuta = async (req, res) => {
   try {
     const data = await getData()

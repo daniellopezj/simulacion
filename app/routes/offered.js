@@ -17,4 +17,9 @@ router.get(
   controller.getTest
 )
 
+router.post(
+  '/recibirPedido',
+  controller.postTest
+)
+
 module.exports = router
