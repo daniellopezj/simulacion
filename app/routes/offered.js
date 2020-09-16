@@ -3,7 +3,7 @@ const controller = require('../controllers/offered')
 const router = express.Router()
 
 router.get(
-  '/cualquirRuta',
+  '/cualquirRutacualquirRuta',
   controller.cualquierRuta
 )
 
@@ -20,6 +20,18 @@ router.get(
 router.post(
   '/recibirPedido',
   controller.postTest
+)
+//Los clientes notifican cuando abandonan la mesa 
+router.post(
+  '/abandonarMesa',
+  controller.postAbandonarMesa
+)
+
+
+//El mesero limpia una mesa
+router.post(
+  '/limpiarMesa',
+  controller.postLimpiarMesa
 )
 
 module.exports = router

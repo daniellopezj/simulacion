@@ -50,3 +50,27 @@ exports.cualquierRuta = async (req, res) => {
     utils.handleError(res, error)
   }
 }
+
+
+
+//   Los clientes notifican cuando abandonan la mesa 
+exports.postAbandonarMesa = async (req, res) => {
+  try {
+    let idMesa = req.body;
+    const data = { status: "los usuarios han abandonado la mesa :)" }
+    res.status(200).json(data)
+  } catch (error) {
+    utils.handleError(res, error)
+  }
+}
+
+//   El mesero limpia una mesa
+exports.postLimpiarMesa = async (req, res) => {
+  try {
+    let idMesa = req.body;
+    const data = { status: "Mesa limpia" }
+    res.status(200).json(data)
+  } catch (error) {
+    utils.handleError(res, error)
+  }
+}
