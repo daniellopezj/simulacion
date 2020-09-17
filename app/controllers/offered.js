@@ -1,5 +1,9 @@
 const utils = require('../middleware/utils')
 const axios = require('axios');
+var Mesa  = require('../models/mesa');
+const mesas = [new Mesa(0),new Mesa(1),new Mesa(2),new Mesa(3),new Mesa(4),new Mesa(5),
+  new Mesa(6,new Mesa(7),new Mesa(8),new Mesa(9),new Mesa(10),new Mesa(11),new Mesa(12),
+  new Mesa(13),new Mesa(14))];
 
 /*********************
  * Private functions *
@@ -7,7 +11,7 @@ const axios = require('axios');
 
 const getData = () => new Promise((resolve, reject) => {
   const data = { test: "test" }
-  resolve(data)
+  resolve(mesas)
   //reject(error) // Esto solo se utiliza para cuando la promesa retorna un error. Es por si lo necesitan 
 })
 
