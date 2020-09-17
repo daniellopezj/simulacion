@@ -92,14 +92,20 @@ exports.cualquierRuta = async (req, res) => {
 }
 
 
+// *************  MENDEZ  *****************************
 
 //   Los clientes notifican cuando abandonan la mesa 
 exports.postAbandonarMesa = async (req, res) => {
   try {
-    let idMesa = req.body;
-    //if (!idMesa) res.status(404).json({ status: 'La id de la mesa es requerida (idMesa)' })
-    const data = { status: "los usuarios han abandonado la mesa :)" }
-    res.status(200).json(data)
+    let idMesa = req.body.idMesa;
+    if (!idMesa) res.status(404).json({ status: 'La id de la mesa es requerida (idMesa)' });
+    var data = { status: "Los clientes abandonaron la mesa" }
+    if (changeStateMesa(idMesa, 3)) {
+      res.status(200).json(data);
+    } else {
+      data = { status: "Error al abandonar la mesa" };
+      res.status(404).json(data);
+    }
   } catch (error) {
     utils.handleError(res, error)
   }
@@ -108,23 +114,29 @@ exports.postAbandonarMesa = async (req, res) => {
 //   El mesero limpia una mesa
 exports.postLimpiarMesa = async (req, res) => {
   try {
-    let idMesa = req.body;
-    changeStateMesa(idMesa, 1);
-    const data = { status: "Mesa limpia" }
-    res.status(200).json(data)
+    let idMesa = req.body.idMesa;
+    var data = { status: "Mesa limpia" }
+    if (changeStateMesa(idMesa, 1)) {
+      res.status(200).json(data);
+    } else {
+      data = { status: "Error al limpiar mesa" };
+      res.status(404).json(data);
+    }
   } catch (error) {
     utils.handleError(res, error)
   }
 }
 
 //cambiar estado de mesa
-
 function changeStateMesa(idMesa, newState) {
+  var state = false;
   mesas.forEach(mesa => {
     if (mesa.id === idMesa) {
       mesa.id = newState;
+      state = true;
     }
   });
+  return state;
 }
 
 //   Enviar la lista de mesas con sus estados
@@ -137,6 +149,7 @@ exports.getEstadosMesas = async (req, res) => {
   }
 }
 
+// metodo para obtener la lista de idMesa con su estado
 function getEstadosMesas() {
   let mesasList = [];
   mesas.forEach(element => {
