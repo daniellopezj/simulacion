@@ -17,6 +17,18 @@ router.get(
   controller.getTest
 )
 
+//Los meseros verifican si hay mesas vacias
+router.get(
+  '/verificarDisponibilidad',
+  controller.verificar_disponibilidad
+)
+
+//Asignar mesa a los clientes
+router.post(
+  '/asignarMesa',
+  controller.asignar_mesa
+)
+
 router.post(
   '/recibirPedido',
   controller.postRecibirPedido
