@@ -46,7 +46,7 @@ router.post(
   controller.postLimpiarMesa
 )
 
-//El mesero limpia una mesa
+//El mesero obtiene la lista de mesas
 router.get(
   '/getEstadosMesas',
   controller.getEstadosMesas
