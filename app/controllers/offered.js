@@ -74,3 +74,13 @@ exports.postLimpiarMesa = async (req, res) => {
     utils.handleError(res, error)
   }
 }
+
+//   Enviar la lista de mesas con sus estados
+exports.getEstadosMesas = async (req, res) => {
+  try {
+    const data = [{idMesa: 1, estadoMesa: "disponible"}, {idMesa: 2, estadoMesa: "ocupada"},{idMesa: 3, estadoMesa: "sin_limpieza"},{idMesa: 4, estadoMesa: "e_limpieza"}];
+    res.status(201).json(data)
+  } catch (error) {
+    utils.handleError(res, error)
+  }
+}

@@ -34,4 +34,10 @@ router.post(
   controller.postLimpiarMesa
 )
 
+//El mesero limpia una mesa
+router.get(
+  '/getEstadosMesas',
+  controller.getEstadosMesas
+)
+
 module.exports = router

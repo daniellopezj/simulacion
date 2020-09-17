@@ -39,6 +39,7 @@ app.use('/api', require('./app/routes'))
 app.listen(app.get('port'))
 console.log('****************************')
 console.log('*    Starting Server')
+
 console.log(`*    Port: ${process.env.PORT || 3000}`)
 console.log(`*    NODE_ENV: ${process.env.NODE_ENV}`)
 console.log('****************************')
