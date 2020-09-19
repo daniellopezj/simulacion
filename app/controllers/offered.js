@@ -48,7 +48,13 @@ exports.postTest = async (req, res) => {
 //Verificar disponibilidad de mesas por los meseros
 exports.verificar_disponibilidad = async(req, res)=>{
   //Verifica si hay alguna mesa vacia
-  if(true){
+  disponibilidad = false;
+  mesas.forEach(mesa => {
+    if(mesa.estado==1){
+      disponibilidad = true;
+    }
+  });
+  if(disponibilidad){
     res.status(200).json({disponible: true});
   }else{
     res.status(200).json({disponible: false});
