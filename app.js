@@ -5,8 +5,12 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 var logger = require('morgan')
 const morgan = require('morgan')
+const controller = require('./app/controllers/offered');
 
 var app = express()
+
+//static files
+app.use(express.static('public'))
 
 // for parsing json
 app.use(
@@ -25,6 +29,8 @@ app.use(
 app.set('port', process.env.PORT || 3000)
 
 // view engine setup
+app.set('view engine', 'pug');
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
@@ -36,7 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api', require('./app/routes'))
-app.listen(app.get('port'))
+const server = app.listen(app.get('port'))
 console.log('****************************')
 console.log('*    Starting Server')
 
@@ -44,3 +50,8 @@ console.log(`*    Port: ${process.env.PORT || 3000}`)
 console.log(`*    NODE_ENV: ${process.env.NODE_ENV}`)
 console.log('****************************')
 module.exports = app;
+
+// Socket connection
+const io = require('socket.io').listen(server)
+
+controller.initSocket(io);
