@@ -11,7 +11,7 @@ const mesas = [new Mesa(0),new Mesa(1),new Mesa(2),new Mesa(3),new Mesa(4),new M
 
 const getData = () => new Promise((resolve, reject) => {
   const data = { test: "test" }
-  resolve(mesas)
+  resolve(mesas) 
   //reject(error) // Esto solo se utiliza para cuando la promesa retorna un error. Es por si lo necesitan 
 })
 
