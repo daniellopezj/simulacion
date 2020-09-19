@@ -1,6 +1,6 @@
 const utils = require('../middleware/utils')
 const axios = require('axios');
-var Mesa = require('../models/mesa');
+var Mesa = require('../models/Mesa');
 let socket;
 
 const mesas = [new Mesa(0), new Mesa(1), new Mesa(2), new Mesa(3), new Mesa(4), new Mesa(5),
