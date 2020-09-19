@@ -1,5 +1,43 @@
-extends layout
 
-block content
-  h1= title
-  p Welcome to #{title}
+doctype html
+html
+  head
+    title Simulación - Mesas
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.2/css/bulma.css')
+    link(rel='stylesheet', href='css/main.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js')
+    script(src='https://code.jquery.com/jquery-3.5.1.min.js')
+  body
+    #chat-app
+      #chat.has-text-centered
+        section.hero.is-primary
+          .hero-body
+            .container
+              h1.title Mesas
+              h2 Información actual
+        section.section.chat-container
+          .container
+            .columns
+              .box.column.is-8.is-offset-2
+
+        footer
+          .container
+            .content
+              p
+                | Creado por el grupo de Mesas
+      script.
+        const socket = io();
+
+        socket.on('tables', function (message) {});
+
+        socket.on('clients', function (message) {});
+
+        socket.on('order', function (message) {});
+
+        socket.on('leave', function (message) {});
+
+        socket.on('clean', function (message) {});
+
+        socket.on('hi', function (message) {
+          alert('Dicen Hola');
+        });

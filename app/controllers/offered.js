@@ -1,6 +1,8 @@
 const utils = require('../middleware/utils')
 const axios = require('axios');
 var Mesa  = require('../models/mesa');
+let socket;
+
 const mesas = [new Mesa(0),new Mesa(1),new Mesa(2),new Mesa(3),new Mesa(4),new Mesa(5),
   new Mesa(6,new Mesa(7),new Mesa(8),new Mesa(9),new Mesa(10),new Mesa(11),new Mesa(12),
   new Mesa(13),new Mesa(14))];
@@ -12,7 +14,7 @@ const mesas = [new Mesa(0),new Mesa(1),new Mesa(2),new Mesa(3),new Mesa(4),new M
 const getData = () => new Promise((resolve, reject) => {
   const data = { test: "test" }
   resolve(mesas)
-  //reject(error) // Esto solo se utiliza para cuando la promesa retorna un error. Es por si lo necesitan 
+  //reject(error) // Esto solo se utiliza para cuando la promesa retorna un error. Es por si lo necesitan
 })
 
 const enviarPedido = (data) => {
@@ -24,7 +26,22 @@ const enviarPedido = (data) => {
            console.log(error);
         });
 }
-  
+
+/********************
+ * Sockets *
+ ********************/
+let sendEvent = (name, message) => {
+  socket.emit(name, message);
+};
+
+exports.initSocket = (io) => {
+  io.on('connection', s => {
+    console.log('Hola Pues!');
+    socket = s;
+    sendEvent('hi',  'Hola');
+  });
+};
+
 /********************
  * Public functions *
  ********************/
@@ -38,7 +55,7 @@ exports.getTest = async (req, res) => {
 }
 exports.postTest = async (req, res) => {
   try {
-    const data = req.body //retorna el mismo objeto enviado 
+    const data = req.body //retorna el mismo objeto enviado
     res.status(200).json(data)
   } catch (error) {
     utils.handleError(res, error)
@@ -55,6 +72,7 @@ exports.verificar_disponibilidad = async(req, res)=>{
   }
 }
 
+// sockets clients
 //Asignar clientes
 exports.asignar_mesa = async(req, res)=>{
   const clientes = req.body;  //Recibe la lista de clientes para asignarlos a una mesa
@@ -65,9 +83,10 @@ exports.asignar_mesa = async(req, res)=>{
   });
 }
 
+// sockets order
 exports.postRecibirPedido = async (req, res) => {
   try {
-    const data = req.body //retorna el mismo objeto enviado 
+    const data = req.body //retorna el mismo objeto enviado
     console.log(data);
     if (!data.idMesa) res.status(404).json({status:'La id de la mesa es requerida (idMesa)'})
     if (!data.clientes) res.status(404).json({status:'La lista de clientes con su pedido es requerida'})
@@ -91,9 +110,8 @@ exports.cualquierRuta = async (req, res) => {
   }
 }
 
-
-
-//   Los clientes notifican cuando abandonan la mesa 
+// sockets leave
+//   Los clientes notifican cuando abandonan la mesa
 exports.postAbandonarMesa = async (req, res) => {
   try {
     let idMesa = req.body;
@@ -104,6 +122,7 @@ exports.postAbandonarMesa = async (req, res) => {
   }
 }
 
+// sockets clean
 //   El mesero limpia una mesa
 exports.postLimpiarMesa = async (req, res) => {
   try {
