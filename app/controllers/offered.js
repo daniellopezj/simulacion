@@ -5,7 +5,6 @@ const mesas = [new Mesa(0), new Mesa(1), new Mesa(2), new Mesa(3), new Mesa(4), 
 new Mesa(6, new Mesa(7), new Mesa(8), new Mesa(9), new Mesa(10), new Mesa(11), new Mesa(12),
   new Mesa(13), new Mesa(14))];
 
-  
 
 /*********************
  * Private functions *
