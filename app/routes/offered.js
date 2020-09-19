@@ -2,6 +2,7 @@ const express = require('express')
 const controller = require('../controllers/offered')
 const router = express.Router()
 
+
 router.get(
   '/cualquirRutacualquirRuta',
   controller.cualquierRuta
