@@ -2,6 +2,7 @@ const express = require('express')
 const controller = require('../controllers/offered')
 const router = express.Router()
 
+
 router.get(
   '/cualquirRutacualquirRuta',
   controller.cualquierRuta
@@ -44,6 +45,12 @@ router.post(
 router.post(
   '/limpiarMesa',
   controller.postLimpiarMesa
+)
+
+//El mesero obtiene la lista de mesas
+router.get(
+  '/getEstadosMesas',
+  controller.getEstadosMesas
 )
 
 module.exports = router
