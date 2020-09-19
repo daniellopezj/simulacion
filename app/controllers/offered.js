@@ -65,10 +65,15 @@ exports.verificar_disponibilidad = async(req, res)=>{
 exports.asignar_mesa = async(req, res)=>{
   const clientes = req.body;  //Recibe la lista de clientes para asignarlos a una mesa
   console.log(clientes);
-  //Codigo para asignar los clientes a alguna mesa
-  res.status(200).json({
-    idMesa: 1
+  mesas.forEach(mesa => {
+    if(mesa.estado==1){
+      mesa.clientes = clientes;
+      res.status(200).json({
+        idMesa: mesa.id
+      });
+    }
   });
+  //Codigo para asignar los clientes a alguna mesa
 }
 
 exports.postRecibirPedido = async (req, res) => {
