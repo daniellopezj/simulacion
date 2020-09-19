@@ -10,4 +10,7 @@ class Mesa {
 // 2 Ocupado
 // 3 Sin_limpieza
 // 4 En_limpieza
+// 5 Sin_atender
+// 6 atendida
+
 module.exports = Mesa;

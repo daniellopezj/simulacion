@@ -4,8 +4,8 @@ var Mesa = require('../models/Mesa');
 let socket;
 
 const mesas = [new Mesa(0), new Mesa(1), new Mesa(2), new Mesa(3), new Mesa(4), new Mesa(5),
-new Mesa(6, new Mesa(7), new Mesa(8), new Mesa(9), new Mesa(10), new Mesa(11), new Mesa(12),
-  new Mesa(13), new Mesa(14))];
+new Mesa(6), new Mesa(7), new Mesa(8), new Mesa(9), new Mesa(10), new Mesa(11), new Mesa(12),
+new Mesa(13), new Mesa(14)];
 
 /*********************
 * Private functions *
@@ -46,6 +46,24 @@ exports.initSocket = (io) => {
     sendEvent('clean', { table: 10 });
   });
 };
+
+// Obtener la lista de mesas disponibles, ocupadas y en limpieza
+function getSocketTables() {
+  var countOccupied = countTablesStates(5) + countTablesStates(6);
+  var countAvailable = countTablesStates(1);
+  var countCleaning = countTablesStates(4);
+  return { occupied: countOccupied, available: countAvailable, cleaning: countCleaning }
+}
+
+function countTablesStates(state) {
+  var count = 0;
+  mesas.forEach(mesa => {
+    if (mesa.estado === state) {
+      count++;
+    }
+  });
+  return count;
+}
 
 /********************
  * Public functions *
@@ -185,8 +203,10 @@ exports.getEstadosMesas = async (req, res) => {
 
 // metodo para obtener la lista de idMesa con su estado
 function getEstadosMesas() {
+  console.log(mesas.length);
   let mesasList = [];
   mesas.forEach(element => {
+    console.log(element);
     mesasList.push({ idMesa: element.id, estado: element.estado })
   });
   return mesasList;
