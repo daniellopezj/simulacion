@@ -1,15 +1,15 @@
 const utils = require('../middleware/utils')
 const axios = require('axios');
-var Mesa  = require('../models/mesa');
+var Mesa = require('../models/Mesa');
 let socket;
 
-const mesas = [new Mesa(0),new Mesa(1),new Mesa(2),new Mesa(3),new Mesa(4),new Mesa(5),
-  new Mesa(6,new Mesa(7),new Mesa(8),new Mesa(9),new Mesa(10),new Mesa(11),new Mesa(12),
-      new Mesa(13),new Mesa(14))];
+const mesas = [new Mesa(0), new Mesa(1), new Mesa(2), new Mesa(3), new Mesa(4), new Mesa(5),
+  new Mesa(6, new Mesa(7), new Mesa(8), new Mesa(9), new Mesa(10), new Mesa(11), new Mesa(12),
+      new Mesa(13), new Mesa(14))];
 
 /*********************
- * Private functions *
- *********************/
+* Private functions *
+*********************/
 
 const getData = () => new Promise((resolve, reject) => {
   const data = { test: "test" }
@@ -38,7 +38,7 @@ exports.initSocket = (io) => {
   io.on('connection', s => {
     console.log('Hola Pues!');
     socket = s;
-    sendEvent('hi',  'Hola');
+    sendEvent('hi', 'Hola');
     sendEvent('tables', { occupied: 2, available: 10, cleaning: 3 });
     sendEvent('clients', { table: 1, clients: 4 });
     sendEvent('clients', { table: 5, clients: 2 });
@@ -72,14 +72,14 @@ exports.verificar_disponibilidad = async (req, res) => {
   //Verifica si hay alguna mesa vacia
   disponibilidad = false;
   mesas.forEach(mesa => {
-    if(mesa.estado==1){
+    if (mesa.estado == 1) {
       disponibilidad = true;
     }
   });
-  if(disponibilidad){
-    res.status(200).json({disponible: true});
-  }else{
-    res.status(200).json({disponible: false});
+  if (disponibilidad) {
+    res.status(200).json({ disponible: true });
+  } else {
+    res.status(200).json({ disponible: false });
   }
 }
 
@@ -89,7 +89,7 @@ exports.asignar_mesa = async (req, res) => {
   const clientes = req.body;  //Recibe la lista de clientes para asignarlos a una mesa
   console.log(clientes);
   mesas.forEach(mesa => {
-    if(mesa.estado==1){
+    if (mesa.estado == 1) {
       mesa.clientes = clientes;
       res.status(200).json({
         idMesa: mesa.id
