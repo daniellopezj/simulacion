@@ -27,6 +27,7 @@ const enviarDato = (url, data) => {
     });
 }
 
+
 /********************
  * Sockets *
  ********************/
@@ -106,15 +107,52 @@ exports.verificar_disponibilidad = async (req, res) => {
 exports.asignar_mesa = async (req, res) => {
   const clientes = req.body;  //Recibe la lista de clientes para asignarlos a una mesa
   console.log(clientes);
+  var mesa = getPosDisponible();
+
+  if (mesa != undefined) {
+    //estado sin atender
+    mesa.estado = 5;
+    mesa.clientes = clientes;
+    res.status(200).json({
+      idMesa: mesa.id
+    });
+
+    recibirEnviarMenu();
+  } else {
+    res.status(400).json({ status: 'No hay mesas disponibles' });
+  }
+  //sendEvent('clients', { table: mesa.id, clients: mesa.clientes.length });
+
+  /*
   mesas.forEach(mesa => {
     if (mesa.estado == 1) {
       mesa.clientes = clientes;
+      mesa.estado = 5;
       res.status(200).json({
         idMesa: mesa.id
       });
     }
   });
+  */
   //Codigo para asignar los clientes a alguna mesa
+}
+
+
+function recibirEnviarMenu() {
+  axios.get('/"ruta que obtiene el menu"')
+    .then(response => {
+      var menu = response;
+      enviarDato("urlClientes", menu);
+    })
+    .catch(e => {
+      // Podemos mostrar los errores en la consola
+      console.log(e);
+    })
+}
+
+// devuelve la primera mesa disponible que encuentre
+function getPosDisponible() {
+  return mesas[mesas.findIndex(mesa => mesa.estado === 1)];
 }
 
 // sockets order
@@ -129,6 +167,13 @@ exports.postRecibirPedido = async (req, res) => {
   } catch (error) {
     utils.handleError(res, error)
   }
+}
+
+//los clientes nos pasan los pedidos
+exports.solicitarPedido = async (req, res) => {
+  var data = req.body;
+  console.log(data);
+  res.status(200).json({ status: 'Pedido recibido' })
 }
 
 
@@ -167,7 +212,7 @@ exports.postLimpiarMesa = async (req, res) => {
   try {
     let idMesa = req.body.idMesa;
     var data = { status: "Mesa limpia" }
-    if (changeStateMesa(idMesa, 1)) {
+    if (changeStateMesa(idMesa, 4)) {
       res.status(200).json(data);
     } else {
       data = { status: "Error al limpiar mesa" };

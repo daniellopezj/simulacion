@@ -30,6 +30,12 @@ router.post(
   controller.asignar_mesa
 )
 
+//los clientes nos envian el pedido
+router.post(
+  '/solicitarPedido',
+  controller.solicitarPedido
+)
+
 router.post(
   '/recibirPedido',
   controller.postRecibirPedido
