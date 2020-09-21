@@ -41,7 +41,7 @@ exports.initSocket = (io) => {
     socket = s;
     sendEvent('hi', 'Hola');
     sendEvent('tables', getSocketTables());
-   // sendEvent('clients', { table: 1, clients: 4 });
+    // sendEvent('clients', { table: 1, clients: 4 });
     //sendEvent('clients', { table: 5, clients: 2 });
     //sendEvent('leave', { table: 1 });
     //sendEvent('clean', { table: 10 });
@@ -119,7 +119,7 @@ exports.asignar_mesa = async (req, res) => {
       idMesa: mesa.id
     });
 
-   // recibirEnviarMenu();
+    // recibirEnviarMenu();
   } else {
     res.status(400).json({ status: 'No hay mesas disponibles' });
   }
@@ -195,14 +195,17 @@ exports.cualquierRuta = async (req, res) => {
 exports.postAbandonarMesa = async (req, res) => {
   try {
     let idMesa = req.body.idMesa;
-    if (!idMesa) res.status(404).json({ status: 'La id de la mesa es requerida (idMesa)' });
-    var data = { status: "Los clientes abandonaron la mesa" }
-    if (changeStateMesa(idMesa, 3)) {
-      sendEvent('leave', { table: idMesa });
-      res.status(200).json(data);
+    if (!idMesa) {
+      res.status(404).json({ status: 'La id de la mesa es requerida (idMesa)' })
     } else {
-      data = { status: "Error al abandonar la mesa" };
-      res.status(404).json(data);
+      var data = { status: "Los clientes abandonaron la mesa" }
+      if (changeStateMesa(idMesa, 3)) {
+        sendEvent('leave', { table: idMesa });
+        res.status(200).json(data);
+      } else {
+        data = { status: "Error al abandonar la mesa" };
+        res.status(404).json(data);
+      }
     }
   } catch (error) {
     utils.handleError(res, error)
