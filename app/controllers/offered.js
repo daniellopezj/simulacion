@@ -119,7 +119,7 @@ exports.asignar_mesa = async (req, res) => {
       idMesa: mesa.id
     });
 
-    recibirEnviarMenu();
+   // recibirEnviarMenu();
   } else {
     res.status(400).json({ status: 'No hay mesas disponibles' });
   }
@@ -164,7 +164,7 @@ exports.postRecibirPedido = async (req, res) => {
     console.log(data);
 
     //enviarPedido(data)
-    enviarDato("falta url", data);
+    //enviarDato("falta url", data);
     res.status(200).json({ status: 'Pedido recibido' })
   } catch (error) {
     utils.handleError(res, error)
