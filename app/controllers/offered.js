@@ -195,7 +195,7 @@ exports.cualquierRuta = async (req, res) => {
 exports.postAbandonarMesa = async (req, res) => {
   try {
     let idMesa = req.body.idMesa;
-    if (!idMesa) {
+    if (!req.body.hasOwnProperty('idMesa')) {
       res.status(404).json({ status: 'La id de la mesa es requerida (idMesa)' })
     } else {
       var data = { status: "Los clientes abandonaron la mesa" }
