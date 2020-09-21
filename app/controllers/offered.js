@@ -41,10 +41,10 @@ exports.initSocket = (io) => {
     socket = s;
     sendEvent('hi', 'Hola');
     sendEvent('tables', getSocketTables());
-    sendEvent('clients', { table: 1, clients: 4 });
-    sendEvent('clients', { table: 5, clients: 2 });
-    sendEvent('leave', { table: 1 });
-    sendEvent('clean', { table: 10 });
+   // sendEvent('clients', { table: 1, clients: 4 });
+    //sendEvent('clients', { table: 5, clients: 2 });
+    //sendEvent('leave', { table: 1 });
+    //sendEvent('clean', { table: 10 });
   });
 };
 
