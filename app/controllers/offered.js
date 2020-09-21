@@ -40,7 +40,7 @@ exports.initSocket = (io) => {
     console.log('Hola Pues!');
     socket = s;
     sendEvent('hi', 'Hola');
-    sendEvent('tables', { occupied: 2, available: 10, cleaning: 3 });
+    sendEvent('tables', getSocketTables());
     sendEvent('clients', { table: 1, clients: 4 });
     sendEvent('clients', { table: 5, clients: 2 });
     sendEvent('leave', { table: 1 });
@@ -113,6 +113,8 @@ exports.asignar_mesa = async (req, res) => {
     //estado sin atender
     mesa.estado = 5;
     mesa.clientes = clientes;
+    sendEvent('tables', getSocketTables());
+    sendEvent('clients', { table: mesa.id, clients: mesa.clientes.length });
     res.status(200).json({
       idMesa: mesa.id
     });
@@ -196,6 +198,7 @@ exports.postAbandonarMesa = async (req, res) => {
     if (!idMesa) res.status(404).json({ status: 'La id de la mesa es requerida (idMesa)' });
     var data = { status: "Los clientes abandonaron la mesa" }
     if (changeStateMesa(idMesa, 3)) {
+      sendEvent('tables', getSocketTables());
       res.status(200).json(data);
     } else {
       data = { status: "Error al abandonar la mesa" };
@@ -213,6 +216,7 @@ exports.postLimpiarMesa = async (req, res) => {
     let idMesa = req.body.idMesa;
     var data = { status: "Mesa limpia" }
     if (changeStateMesa(idMesa, 4)) {
+      sendEvent('tables', getSocketTables());
       res.status(200).json(data);
     } else {
       data = { status: "Error al limpiar mesa" };
@@ -229,7 +233,7 @@ function changeStateMesa(idMesa, newState) {
   var state = false;
   mesas.forEach(mesa => {
     if (mesa.id === idMesa) {
-      mesa.id = newState;
+      mesa.estado = newState;
       state = true;
     }
   });
