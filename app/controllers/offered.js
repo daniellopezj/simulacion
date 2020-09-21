@@ -198,7 +198,7 @@ exports.postAbandonarMesa = async (req, res) => {
     if (!idMesa) res.status(404).json({ status: 'La id de la mesa es requerida (idMesa)' });
     var data = { status: "Los clientes abandonaron la mesa" }
     if (changeStateMesa(idMesa, 3)) {
-      sendEvent('tables', getSocketTables());
+      sendEvent('leave', { table: idMesa });
       res.status(200).json(data);
     } else {
       data = { status: "Error al abandonar la mesa" };
